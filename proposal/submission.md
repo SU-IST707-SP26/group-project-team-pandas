@@ -39,10 +39,9 @@ Restaurant health inspections in New York City and many other cities are usually
 These limitations highlight important needs for stakeholders. The **NYC Department of Health and Mental Hygiene (DOHMH)** needs tools that help prioritize inspections based on risk so that limited staff and resources are used more effectively. Studies suggest that neighborhood and socioeconomic factors can improve predictions, but these are rarely used in practice⁵. **Restaurant owners** need early alerts that allow them to fix problems before official inspections, helping them avoid poor grades and financial losses. **NYC residents and diners** depend on inspections to ensure food safety and need reliable and fair systems that protect public health. **Policy makers** also rely on inspection data to guide regulations and funding decisions. Our project addresses these needs by developing a transparent and reproducible model using NYC open data to support more proactive and equitable food safety monitoring.
 
 
-
 # Method
 
-### Data Preprocessing Needs
+## Data Preprocessing Needs
 
 ### A. Cyclical Features:
 - Convert inspection dates to datetime  
