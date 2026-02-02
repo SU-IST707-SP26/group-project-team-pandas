@@ -40,6 +40,60 @@ These limitations highlight important needs for stakeholders. The **NYC Departme
 
 
 ### Data and Methods
+Methods
+Describe your modeling approach. What sorts of transformations / preprocessing are going to be necessary?
+Data Preprocessing Needs
+A. Cyclical Features:
+Convert inspection dates to datetime
+Helps to observe cycles in the dataset(days, months). For example: 
+Amount of time since a Restaurant’s last inspection
+If restaurant has had past violations
+Is there a trend or seasonality to a Restaurant’s violations
+B. Categorical Features:
+One-Hot Encoding
+Food specialization of each Restaurant
+The borough of each Restaurant
+Binary
+Chain vs Independent
+Frequency Encoding
+Past Violations
+C. Text Data:
+Violation descriptions 
+Business name 
+Address 
+D. Feature Engineering:
+Create risk scores from previous performance
+What sorts of modeling techniques will you apply?
+Modeling Approach
+A. Base Models:
+XGBoost
+Random Forest
+Logistic Regression 
+How are you going to evaluate your models (note that your evaluation should be consistent with stakeholder needs)?
+Evaluation Strategy
+A. Primary Metrics (aligned with stakeholder needs):
+Recall: True Positives / (True Positives + False Negatives)
+This metric indicates how many High-Risk Restaurants were caught by the model
+Precision: Precision = True Positives / (True Positives + False Positives)
+This metric indicates how many High-Risk Restaurants flagged by the model that actually turned out to be High-Risk.
+F1-Score: F1 = 2 * (Precision * Recall) / (Precision + Recall)
+Balances between Precision and Recall
+Not missing dangerous restaurants (recall)
+Not wasting resources (precision)
+B. Business-Specific Metrics:
+Cost savings 
+Fewer unnecessary inspections
+Reduced overhead expenses
+Reduction in foodborne illness reports
+Efficiency of inspector operations
+Fewer trips made from inspector
+Better geographic coverage
+Early problem detection
+C. Validation Strategy:
+Train/Test split(prevent data leakage)
+Rolling window(seasonal patterns)
+Geographic(Borough-specific patterns)
+
 
 
 ### Project Plan
