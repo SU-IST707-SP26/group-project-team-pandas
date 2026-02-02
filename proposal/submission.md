@@ -2,11 +2,7 @@
 
 ### Team:
 
-Jessica Aimunmondion
-Joel Barnes
-Mian Hamid 
-Zeek Moore 
-Adelina Dunina, login: Adelina2302
+Jessica Aimunmondion, Joel Barnes, Mian Hamid, Zeek Moore, Adelina Dunina (login: Adelina2302)
 
 ### Introduction
 
