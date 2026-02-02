@@ -2,7 +2,7 @@
 
 ### Team:
 
-Jessica Aimunmondion (login: jessdion), Joel Barnes, Mian Hamid, Zeek Moore, Adelina Dunina (login: Adelina2302)
+Jessica Aimunmondion (login: jessdion), Joel Barnes, Mian Hamid, Zeek Moore, Adelina Dunina (login: Adelina2302) (POC)
 
 ### Introduction
 
@@ -38,105 +38,33 @@ Restaurant health inspections in New York City and many other cities are usually
 
 These limitations highlight important needs for stakeholders. The **NYC Department of Health and Mental Hygiene (DOHMH)** needs tools that help prioritize inspections based on risk so that limited staff and resources are used more effectively. Studies suggest that neighborhood and socioeconomic factors can improve predictions, but these are rarely used in practice⁵. **Restaurant owners** need early alerts that allow them to fix problems before official inspections, helping them avoid poor grades and financial losses. **NYC residents and diners** depend on inspections to ensure food safety and need reliable and fair systems that protect public health. **Policy makers** also rely on inspection data to guide regulations and funding decisions. Our project addresses these needs by developing a transparent and reproducible model using NYC open data to support more proactive and equitable food safety monitoring.
 
-
 ### Data and Methods
-Methods
-Describe your modeling approach. What sorts of transformations / preprocessing are going to be necessary?
-Data Preprocessing Needs
-A. Cyclical Features:
-Convert inspection dates to datetime
-Helps to observe cycles in the dataset(days, months). For example: 
-Amount of time since a Restaurant’s last inspection
-If restaurant has had past violations
-Is there a trend or seasonality to a Restaurant’s violations
-B. Categorical Features:
-One-Hot Encoding
-Food specialization of each Restaurant
-The borough of each Restaurant
-Binary
-Chain vs Independent
-Frequency Encoding
-Past Violations
-C. Text Data:
-Violation descriptions 
-Business name 
-Address 
-D. Feature Engineering:
-Create risk scores from previous performance
-What sorts of modeling techniques will you apply?
-Modeling Approach
-A. Base Models:
-XGBoost
-Random Forest
-Logistic Regression 
-How are you going to evaluate your models (note that your evaluation should be consistent with stakeholder needs)?
-Evaluation Strategy
-A. Primary Metrics (aligned with stakeholder needs):
-Recall: True Positives / (True Positives + False Negatives)
-This metric indicates how many High-Risk Restaurants were caught by the model
-Precision: Precision = True Positives / (True Positives + False Positives)
-This metric indicates how many High-Risk Restaurants flagged by the model that actually turned out to be High-Risk.
-F1-Score: F1 = 2 * (Precision * Recall) / (Precision + Recall)
-Balances between Precision and Recall
-Not missing dangerous restaurants (recall)
-Not wasting resources (precision)
-B. Business-Specific Metrics:
-Cost savings 
-Fewer unnecessary inspections
-Reduced overhead expenses
-Reduction in foodborne illness reports
-Efficiency of inspector operations
-Fewer trips made from inspector
-Better geographic coverage
-Early problem detection
-C. Validation Strategy:
-Train/Test split(prevent data leakage)
-Rolling window(seasonal patterns)
-Geographic(Borough-specific patterns)
 
+### Data
+
+Our primary dataset is the [DOHMH NYC Restaurant Inspection Results](https://data.cityofnewyork.us/Health/DOHMH-New-York-City-Restaurant-Inspection-Results/43nn-pn8j), containing approximately 300,000 inspection records across 27 columns, updated daily. Key features include restaurant identifier (CAMIS), business name (DBA), location details (borough, building, street, ZIP code, longitude/latitude), cuisine type, inspection dates, violation codes and descriptions, critical flags, numerical scores, grades (A/B/C), and geographic identifiers (census tract, community board, NTA). The dataset is authoritative and reliable, maintained directly by DOHMH—the agency responsible for conducting all NYC restaurant inspections—and serves as the official source for restaurant grades displayed in establishment windows. Complete metadata documentation is available through the NYC Open Data portal, including a data dictionary that defines all fields and their valid values. We may supplement this with two additional datasets if needed: NYC 311 Service Requests (restaurant complaints) and US Census demographic data by ZIP code, both publicly available through NYC Open Data and Census.gov respectively.
+
+### Methods
+
+**Target Variable:** Restaurant grade prediction as multi-class classification (A/B/C), with binary alternative (A vs B/C) if class imbalance proves problematic.
+
+**Preprocessing and Features:** We will aggregate violation-level records to restaurant-inspection level and engineer features across four categories: historical (past scores, violation counts, grade trends), restaurant characteristics (cuisine, location, age), temporal (season, day of week), and neighborhood (restaurant density, area averages using geographic columns). We will also extract features from violation description text using NLP techniques to capture recurring violation patterns. Missing grades from pre-permit and pending inspections will be filtered, and class imbalance addressed through stratified sampling and SMOTE.
+
+**Models:** Logistic Regression (baseline), Random Forest, XGBoost, and LightGBM—selected for capturing non-linear patterns, handling mixed data types, and providing interpretable feature importance.
+
+**Evaluation:** Metrics align with stakeholder needs: F2-score and recall for Grade C (DOHMH priority to catch high-risk restaurants), overall accuracy (restaurant owner fairness), and Grade A precision (consumer safety). SHAP values will provide interpretable predictions. Time-based validation (train on years 1-2, test on year 3) with 5-fold stratified cross-validation and borough-specific holdout sets ensures realistic performance estimates and tests geographic generalization.
 
 ### Project Plan
 
-Period
-Activity
-Milestone
-
-
-Feb 1 – Feb 14
-Data acquisition, dataset validation, initial EDA
-Cleaned dataset and initial visualizations
-
-
-Feb 15 – Feb 28
-Feature engineering and preprocessing
-Finalized feature set
-
-
-Mar 1 – Mar 14
-Baseline modeling and evaluation
-Baseline models completed
-
-
-Mar 15 – Mar 28
-Advanced modeling and tuning
-Best-performing model selected
-
-
-Mar 29 – Apr 11
-Model interpretation and error analysis
-Interpretable results generated
-
-
-Apr 12 – Apr 25
-Visualization and prototype development
-Risk dashboard mockup
-
-
-Apr 26 – May 5
-Final report writing and documentation
-Completed final submission
-
-
+| Period | Activity | Milestone |
+|--------|----------|-----------|
+| **Feb 1–14** | Data acquisition, validation, and EDA | Cleaned dataset; initial visualizations complete |
+| **Feb 15–28** | Feature engineering and preprocessing | Feature set finalized; train/test splits created |
+| **Mar 1–14** | Baseline modeling and evaluation | Baseline models trained; metrics established |
+| **Mar 15–28** | Advanced modeling and hyperparameter tuning | Best-performing model selected |
+| **Mar 29–Apr 11** | Model interpretation and error analysis | SHAP analysis complete; interpretable results generated |
+| **Apr 12–25** | Visualization and prototype development | Risk dashboard mockup completed |
+| **Apr 26–May 5** | Final report writing and documentation | Complete report and code repository |
 
 ### Risks
 1. Data Quality Issues (Inspection records may contain missing values, inconsistent violation codes, or outdated information).
