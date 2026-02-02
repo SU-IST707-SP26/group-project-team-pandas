@@ -2,7 +2,7 @@
 
 ### Team:
 
-Jessica Aimunmondion (login: jessdion), Joel Barnes, Mian Hamid, Zeek Moore, Adelina Dunina (login: Adelina2302) (POC)
+Jessica Aimunmondion (login: jessdion), Joel Barnes, Mian Hamid, Zeek Moore((POC), Adelina Dunina (login: Adelina2302) 
 
 ### Introduction
 
