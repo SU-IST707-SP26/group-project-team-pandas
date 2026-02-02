@@ -1,4 +1,4 @@
-### Predicting NYC Restaurant Health Inspection Grades
+# Predicting NYC Restaurant Health Inspection Grades
 
-## Team
+### Team
 
