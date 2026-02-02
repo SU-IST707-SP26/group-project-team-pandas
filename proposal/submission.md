@@ -95,7 +95,6 @@ Rolling window(seasonal patterns)
 Geographic(Borough-specific patterns)
 
 
-
 ### Project Plan
 
 
