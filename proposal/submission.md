@@ -111,9 +111,60 @@ These limitations highlight important needs for stakeholders. The **NYC Departme
 
 ### Project Plan
 
+Period
+Activity
+Milestone
+
+
+Feb 1 – Feb 14
+Data acquisition, dataset validation, initial EDA
+Cleaned dataset and initial visualizations
+
+
+Feb 15 – Feb 28
+Feature engineering and preprocessing
+Finalized feature set
+
+
+Mar 1 – Mar 14
+Baseline modeling and evaluation
+Baseline models completed
+
+
+Mar 15 – Mar 28
+Advanced modeling and tuning
+Best-performing model selected
+
+
+Mar 29 – Apr 11
+Model interpretation and error analysis
+Interpretable results generated
+
+
+Apr 12 – Apr 25
+Visualization and prototype development
+Risk dashboard mockup
+
+
+Apr 26 – May 5
+Final report writing and documentation
+Completed final submission
+
+
 
 ### Risks
-
+1. Data Quality Issues (Inspection records may contain missing values, inconsistent violation codes, or outdated information).
+We can mitigate this by performing thorough data cleaning, reviewing document assumptions, excluding unreliable records when necessary, and cross-checking with metadata
+2. Class Imbalance (Most restaurants receive A grades, leading to imbalanced classes and biased predictions).
+We can mitigate this by using resampling techniques (SMOTE, undersampling), adjusting class weights, and focusing on F1-score and recall
+3. Limited Predictive Power (Available features may not fully explain inspection outcomes, limiting model accuracy).
+We can mitigate this by engineering additional temporal and neighborhood features, incorporating external datasets, and experimenting with ensemble methods
+4. Overfitting (Complex models may fit training data well but generalize poorly).
+We can mitigate this by using cross-validation, applying regularization, and monitoring performance on holdout sets
+5. Interpretability Challenges (Advanced models may be difficult to explain to stakeholders).
+We can mitigate this by using explainability tools (SHAP, feature importance), comparing with simpler models, and prioritizing transparent approaches
+6. Timeline Constraints (Feature engineering and integration of external datasets may take longer than expected).
+We can mitigate this by prioritizing the core dataset first, maintaining fallback baseline models, and reallocating team roles if delays occur.
 
 ### References
 
