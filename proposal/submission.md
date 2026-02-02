@@ -39,60 +39,75 @@ Restaurant health inspections in New York City and many other cities are usually
 These limitations highlight important needs for stakeholders. The **NYC Department of Health and Mental Hygiene (DOHMH)** needs tools that help prioritize inspections based on risk so that limited staff and resources are used more effectively. Studies suggest that neighborhood and socioeconomic factors can improve predictions, but these are rarely used in practice⁵. **Restaurant owners** need early alerts that allow them to fix problems before official inspections, helping them avoid poor grades and financial losses. **NYC residents and diners** depend on inspections to ensure food safety and need reliable and fair systems that protect public health. **Policy makers** also rely on inspection data to guide regulations and funding decisions. Our project addresses these needs by developing a transparent and reproducible model using NYC open data to support more proactive and equitable food safety monitoring.
 
 
-### Data and Methods
-Methods
-Describe your modeling approach. What sorts of transformations / preprocessing are going to be necessary?
-Data Preprocessing Needs
-A. Cyclical Features:
-Convert inspection dates to datetime
-Helps to observe cycles in the dataset(days, months). For example: 
-Amount of time since a Restaurant’s last inspection
-If restaurant has had past violations
-Is there a trend or seasonality to a Restaurant’s violations
-B. Categorical Features:
-One-Hot Encoding
-Food specialization of each Restaurant
-The borough of each Restaurant
-Binary
-Chain vs Independent
-Frequency Encoding
-Past Violations
-C. Text Data:
-Violation descriptions 
-Business name 
-Address 
-D. Feature Engineering:
-Create risk scores from previous performance
-What sorts of modeling techniques will you apply?
-Modeling Approach
-A. Base Models:
-XGBoost
-Random Forest
-Logistic Regression 
-How are you going to evaluate your models (note that your evaluation should be consistent with stakeholder needs)?
-Evaluation Strategy
-A. Primary Metrics (aligned with stakeholder needs):
-Recall: True Positives / (True Positives + False Negatives)
-This metric indicates how many High-Risk Restaurants were caught by the model
-Precision: Precision = True Positives / (True Positives + False Positives)
-This metric indicates how many High-Risk Restaurants flagged by the model that actually turned out to be High-Risk.
-F1-Score: F1 = 2 * (Precision * Recall) / (Precision + Recall)
-Balances between Precision and Recall
-Not missing dangerous restaurants (recall)
-Not wasting resources (precision)
-B. Business-Specific Metrics:
-Cost savings 
-Fewer unnecessary inspections
-Reduced overhead expenses
-Reduction in foodborne illness reports
-Efficiency of inspector operations
-Fewer trips made from inspector
-Better geographic coverage
-Early problem detection
-C. Validation Strategy:
-Train/Test split(prevent data leakage)
-Rolling window(seasonal patterns)
-Geographic(Borough-specific patterns)
+
+# Method
+
+### Data Preprocessing Needs
+
+### A. Cyclical Features:
+- Convert inspection dates to datetime  
+   - Helps to observe cycles in the dataset (days, months). For example: 
+        - Amount of time since a Restaurant’s last inspection
+        - If restaurant has had past violations
+        - Is there a trend or seasonality to a Restaurant’s violations
+
+### B. Categorical Features:
+- **One-Hot Encoding**
+  - Food specialization of each Restaurant
+  - The borough of each Restaurant
+- **Binary**
+  - Chain vs Independent
+  - Frequency Encoding
+  - Past Violations
+
+### C. Text Data:
+- Violation descriptions 
+- Business name 
+- Address 
+
+### D. Feature Engineering:
+- Create risk scores from previous performance
+
+## Modeling Approach
+
+### A. Base Models:
+- XGBoost
+- Random Forest
+- Logistic Regression 
+
+## Evaluation Strategy
+
+### A. Primary Metrics:
+
+- **Recall:** 
+  Recall = True Positives / (True Positives + False Negatives)  
+    - This metric indicates how many High-Risk Restaurants were caught by the model.
+
+- **Precision:** 
+  Precision = True Positives / (True Positives + False Positives)  
+    - This metric indicates how many High-Risk Restaurants flagged by the model that actually turned out to be High-Risk.
+
+- **F1-Score:** 
+  F1 = 2 * (Precision * Recall) / (Precision + Recall)  
+  
+  - Balances between Precision and Recall:
+    - Not missing dangerous restaurants (recall)
+    - Not wasting resources (precision)
+
+### B. Business-Specific Metrics:
+- Cost savings 
+- Fewer unnecessary inspections
+- Reduced overhead expenses
+- Reduction in foodborne illness reports
+- Efficiency of inspector operations
+- Fewer trips made from inspector
+- Better geographic coverage
+- Early problem detection
+
+### C. Validation Strategy:
+- Train/Test split (prevent data leakage)
+- Rolling window (seasonal patterns)
+- Geographic (Borough-specific patterns)
 
 
 ### Project Plan
