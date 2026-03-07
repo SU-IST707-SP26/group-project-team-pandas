@@ -21,7 +21,7 @@ Here we have a Bar Chart titled “Distribution of Inspection Grades(2022-2025).
 ![Bar Chart](Bar-Chart-Distribution.png)
 
 This is a time-series plot that shows “Inspection Volume Over Time (2022-2025).” The X-axis starts from Jan 2022 to Dec 2025. On the Y-axis we have a count for the Number of Inspections. The volume of inspections gradually increases from Jan 2022 to Feb 2023 and then it begins to drop-off from February before picking up speed again from July 2023
-[Plot2]
+![Inspection Volume](Inspection-Volume-Over-Time.png)
 
 The distribution of Inspection Scores (2022-2025) shows a Right-Skewed plot of Scores ranging from 0 to just under 150. No values are shown from 150 and over. The mean of this plot, which seemingly is the highest bar, is 80000. 
 [Plot3]
