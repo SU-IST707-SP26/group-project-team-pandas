@@ -18,13 +18,16 @@ Here is the link to our Dataset: https://data.cityofnewyork.us/Health/DOHMH-New-
 Upon assessing the source, the Dataset is provided by The NYC Department of Health(DOHMH), which conducts the inspections. Judging by the domain name data.cityofnewyork.us, this dataset is owned and hosted on New York City’s official data platform, NYC Open Data. 
 
 Here we have a Bar Chart titled “Distribution of Inspection Grades(2022-2025). On the X-axis we have the Inspection Grade categories(“A”. “B”, “C”). On the Y-axis we have the frequency count of each Inspection Grade in the dataset. As the viewer can see, Inspection grade “A” is the most frequently occurring grade in the dataset with over 80,000 occurrences. Inspection grade “C” is the least frequently occurring grade in the dataset with under 20,000 occurrences. 
+
 ![Bar Chart](Bar-Chart-Distribution.png)
 
 This is a time-series plot that shows “Inspection Volume Over Time (2022-2025).” The X-axis starts from Jan 2022 to Dec 2025. On the Y-axis we have a count for the Number of Inspections. The volume of inspections gradually increases from Jan 2022 to Feb 2023 and then it begins to drop-off from February before picking up speed again from July 2023
+
 ![Inspection Volume](Inspection-Volume-Over-Time.png)
 
 The distribution of Inspection Scores (2022-2025) shows a Right-Skewed plot of Scores ranging from 0 to just under 150. No values are shown from 150 and over. The mean of this plot, which seemingly is the highest bar, is 80000. 
-[Plot3]
+
+![Inspection Scores](Inspection-Scores.png)
 
 ## Preprocessing:
 The raw dataset required several preprocessing steps before it could be used for modeling. First, we cleaned and standardized the data by converting column names to a consistent format and converting inspection dates to datetime format. Rows missing essential inspection information such as inspection dates or scores were removed.
