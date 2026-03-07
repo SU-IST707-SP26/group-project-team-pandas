@@ -1,6 +1,41 @@
 # Predicting NYC Restaurant Health Inspection Grades Project Midterm Report
 
 ### Team:
+Jessica Aimunmondion (POC) (login: jessdion), Joel Barnes, Mian Hamid (mian7h), Zeek Moore (nlmoore-crypto)
 
-Jessica Aimunmondion (POC) (login: jessdion), Joel Barnes, Mian Hamid, Zeek Moore(nlmoore-crypto)
+### Overview:
+What are you trying to do? Articulate your objectives using absolutely no jargon.
+For this project we are using the NYC Department of Health and Mental Hygiene(DOHMH) dataset to create a Machine Learning Model to identify restaurants at risk of receiving a B or lower before their next inspection. 
 
+What is new in your approach and why do you think it will be successful?(be brief here, you can expand more later!)
+Our approach is more cautionary and seeks to prepare high-risk restaurants for future inspections instead of the current system in place that is merely reactionary. In our new approach, we want to take multiple variables into consideration such as: cuisine type, location, age, historical inspection patterns, violation trends, and neighborhood to flag these high-risk establishments. We believe our approach will be successful because it will keep track of cyclical patterns within the data, it will explore neighborhood characteristics to promote fairness within the industry and not penalize restaurants in poorer neighborhoods. Lastly, our approach will stress the importance of interpretability so that the results of our model are actionable and understandable for non-data professionals within the Food & Health industry. 
+
+Who cares? If you are successful, what difference will it make? Importantly, who is your primary stakeholder, and what specific need are you addressing? 
+Our Stakeholders will include: The NYC Department of Health(DOHMH), Restaurant Owners, NYC Residents/Diners. This project directly impacts these stakeholders. If we are successful, the DOHMH will better serve the consumer by better allocating already limited inspection resources. Restaurant Owners will be able to fix problems and stay on top of potential issues before their inspection is due. NYC Residents/Diners will have safer dining experiences. By the end of the project, the stakeholders should feel somewhat comforted by our findings because we have optimized the current system of Food Inspection and hopefully promoted Food Safety across the industry. 
+
+### Data:
+Here is the link to our Dataset: https://data.cityofnewyork.us/Health/DOHMH-New-York-City-Restaurant-Inspection-Results/43nn-pn8j/about_data
+Upon assessing the source, the Dataset is provided by The NYC Department of Health(DOHMH), which conducts the inspections. Judging by the domain name data.cityofnewyork.us, this dataset is owned and hosted on New York City’s official data platform, NYC Open Data. 
+Here we have a Bar Chart titled “Distribution of Inspection Grades(2022-2025). On the X-axis we have the Inspection Grade categories(“A”. “B”, “C”). On the Y-axis we have the frequency count of each Inspection Grade in the dataset. As the viewer can see, Inspection grade “A” is the most frequently occurring grade in the dataset with over 80,000 occurrences. Inspection grade “C” is the least frequently occurring grade in the dataset with under 20,000 occurrences. 
+[Plot1]
+This is a time-series plot that shows “Inspection Volume Over Time (2022-2025).” The X-axis starts from Jan 2022 to Dec 2025. On the Y-axis we have a count for the Number of Inspections. The volume of inspections gradually increases from Jan 2022 to Feb 2023 and then it begins to drop-off from February before picking up speed again from July 2023
+[Plot2]
+The distribution of Inspection Scores (2022-2025) shows a Right-Skewed plot of Scores ranging from 0 to just under 150. No values are shown from 150 and over. The mean of this plot, which seemingly is the highest bar, is 80000. 
+[Plot3]
+
+### Preprocessing:****
+The raw dataset required several preprocessing steps before it could be used for modeling. First, we cleaned and standardized the data by converting column names to a consistent format and converting inspection dates to datetime format. Rows missing essential inspection information such as inspection dates or scores were removed.
+Because the dataset is structured with one row per violation, we aggregated violations so that each row represents a single restaurant inspection. During this step we created new features including counts of violations by category, the number of critical vs. non-critical violations, and the ratio of critical violations.
+We also created temporal features such as the number of prior inspections, historical average scores, and score changes between inspections. These features allow the model to capture patterns in a restaurant’s compliance history while avoiding data leakage by only using information from previous inspections.
+Missing values produced by historical calculations were filled with zero when appropriate so that all observations could be used for modeling.
+
+### Modeling:****
+For our modeling section, in order for us to establish a baseline, we decided to train multiple classification models to predict whether a restaurant would receive a poor inspection outcome (such as a B or C). Some of our models include Logistic Regression, Random Forest, and XGBoost, which provide a mix of interpretability and predictive power.
+In terms of our dataset, it was split into training and testing sets to evaluate model performance. Some of the focuses we had included precision, recall, and F1-score, since correctly identifying high-risk restaurants is more important than overall accuracy. We have seen that based on the historical inspection behaviors, it becomes a strong predictor for future outcomes.
+
+### Problems & Challenges:****
+There were a couple of challenges that we have dealt with, while working with the NYC inspection dataset. Some of the challenges include structure of the dataset itself, class imbalance, and ethical considerations. For the case of the structure of the dataset,  each violation is recorded as a separate row, a single inspection can appear multiple times in the data. So, we had to restructure the dataset into an inspection-level format before any meaningful modeling could occur. For the case of class imbalance, the majority of restaurants receive an A grade, while B and C grades occur far less frequently. Of course, such imbalance can cause model bias in terms of predicting the majority class. So, we decided to experiment with techniques such as class weighting/resampling. For ethical considerations, this was a concern that was raised in the feedback the professor has provided. Including geographic or socioeconomic features may unintentionally concentrate inspections in poorer neighborhoods, potentially creating a self-reinforcing cycle of increased surveillance. In order to combat this challenge, we  plan to analyze whether geographic features introduce bias and explore ways to balance predictive accuracy with fairness.
+
+### Next Steps:****
+For the next phase of our project we will focus on improving the predictive performance and interpretability of our models. Firstly, we will continue to expand our feature engineering so that we can incorporate additional features including neighborhood inspection averages, seasons inspection patterns, etc. We may also perform hyperparameter tuning on our tree-based models, such as the Random Forest and XGBoost, to improve predictive performance.
+Finally, we plan to develop a visual dashboard prototype that communicates model predictions and risk indicators in a way that is understandable to non-technical stakeholders such as restaurant owners and health inspectors. Our goal is to complete model tuning and interpretation by late March, followed by visualization development and final report preparation in April.
