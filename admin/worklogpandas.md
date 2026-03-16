@@ -31,4 +31,21 @@
 - **Modeling scheduled to begin March 1**  
 - Work divided across **binary features, temporal features, and text features**
 
+## Team Worklog (Feb 28 – Mar 14, 2026)
+
+### Team Members and Roles
+- **Jessica** – Project coordination, identified top 10 independent restaurant chains  
+- **Zeek** – Implemented frequency encoding for text features and one hot encoding  
+- **Joel** – Led feature engineering development  
+- **Mian** – Assisted with editing and finalizing the midterm report  
+
+### Tasks Completed
+- Completed and submitted the **midterm report**  
+- Identified the **top 10 independent restaurant chains** in the dataset  
+- Implemented **frequency encoding** for text based features  
+- Applied **one hot encoding** for categorical variables  
+- Continued development of **feature engineered variables**
+
+### Notes
+- Work during this period focused on preparing and finalizing the **midterm report** while continuing progress on feature engineering.
 
