@@ -1,0 +1,34 @@
+# Worklog PANDAS
+
+## Team Worklog (Feb 17–23, 2026)
+
+### Team Members and Roles
+- **Jessica** – Project Lead, Feature Strategy and Coordination  
+- **Joel** – Feature Engineering Research  
+- **Mian** – Temporal Filtering and Data Refinement  
+- **Zeek** – Binary Feature Development and Text Feature Exploration  
+
+### Tasks Completed
+- Finalized cleaned dataset  
+- Completed exploratory data analysis including distributions and spike inspection  
+- Reduced inspection years from **2015–2025 to 2022–2025**  
+- Identified important feature opportunities such as **chain vs independent restaurants** and **violation frequency**
+
+### Tasks In Progress
+- Developing binary features  
+- Implementing frequency encoding  
+- Researching feature engineering methods for structured data  
+- Exploring text features including **violation descriptions, business names, and addresses**
+
+### Blockers / Issues
+- Choosing the best encoding strategy  
+- Incorporating text features without creating very high dimensional data  
+- Avoiding temporal data leakage  
+- Determining which engineered features will be most useful
+
+### Notes
+- Feature engineering expected to be completed by **Feb 28**  
+- **Modeling scheduled to begin March 1**  
+- Work divided across **binary features, temporal features, and text features**
+
+
