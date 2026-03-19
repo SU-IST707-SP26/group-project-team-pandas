@@ -49,3 +49,25 @@
 ### Notes
 - Work during this period focused on preparing and finalizing the **midterm report** while continuing progress on feature engineering.
 
+
+## Team Worklog (Mar 15 – Mar 18, 2026)
+
+### Team Members and Roles
+- **Jessica** – Refined modeling approach, implemented target variable, led notebook restructuring and GitHub organization  
+- **Zeek** – Continued preprocessing support and encoding validation  
+- **Joel** – Finalized feature engineering pipeline and historical aggregation logic  
+- **Mian** – Supported report edits and reviewed model outputs  
+
+### Tasks Completed
+- Pivoted project focus from **inspection outcome prediction** to **inspection likelihood prediction** based on professor feedback  
+- Created target variable for **inspection within 90 days**  
+- Built and compared models: **logistic regression, balanced logistic regression, and random forest**  
+- Performed **hyperparameter tuning** on random forest  
+- Evaluated models using **classification metrics and confusion matrix**  
+- Identified **balanced logistic regression as the preferred model** based on recall  
+- Restructured project into organized **modular notebooks**  
+- Cleaned and updated **GitHub repository** (removed large files, added .gitignore)  
+
+### Notes
+- This phase focused on aligning the project with stakeholder goals and finalizing the modeling pipeline.  
+- Emphasis was placed on **recall and interpretability** to support proactive decision making for restaurant owners.  
