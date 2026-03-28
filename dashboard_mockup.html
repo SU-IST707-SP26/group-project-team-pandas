@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NYC Restaurant Inspection Risk Dashboard</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',sans-serif;background:#f3f4f8;color:#222;font-size:14px}
+  header{background:#1a2744;color:#fff;padding:14px 28px;display:flex;align-items:center;justify-content:space-between}
+  header h1{font-size:1.1rem;font-weight:700}
+  header .sub{font-size:.73rem;opacity:.65;margin-top:2px}
+  .filters{background:#fff;padding:10px 28px;display:flex;gap:18px;align-items:flex-end;border-bottom:1px solid #dde1ea;flex-wrap:wrap}
+  .filters label{font-size:.73rem;font-weight:600;color:#555;display:flex;flex-direction:column;gap:3px}
+  .filters select{padding:5px 8px;border:1px solid #ccc;border-radius:4px;font-size:.8rem;min-width:140px}
+  .threshold-wrap{display:flex;flex-direction:column;gap:3px}
+  .threshold-wrap input{width:140px}
+  .chip{background:#e8edf7;color:#1a2744;padding:3px 10px;border-radius:12px;font-size:.71rem;font-weight:600;align-self:center}
+  main{display:grid;grid-template-columns:2fr 1fr;gap:16px;padding:20px 28px}
+  .card{background:#fff;border-radius:10px;padding:16px 20px;box-shadow:0 1px 4px rgba(0,0,0,.09)}
+  .card h2{font-size:.71rem;text-transform:uppercase;letter-spacing:.06em;color:#777;margin-bottom:12px;border-bottom:1px solid #f0f0f0;padding-bottom:6px}
+  .kpi-strip{grid-column:1/-1;display:flex;gap:14px;flex-wrap:wrap}
+  .kpi{flex:1;min-width:140px;background:#fff;border-radius:10px;padding:14px 18px;box-shadow:0 1px 4px rgba(0,0,0,.09);border-left:5px solid #aaa}
+  .kpi.red{border-color:#e53935}.kpi.amber{border-color:#fb8c00}.kpi.green{border-color:#43a047}.kpi.blue{border-color:#1e88e5}
+  .kpi .val{font-size:1.8rem;font-weight:700;color:#1a2744;line-height:1.1}
+  .kpi .lbl{font-size:.71rem;color:#777;margin-top:3px}
+  .kpi .delta{font-size:.69rem;margin-top:5px}
+  .kpi .delta.up{color:#e53935}.kpi .delta.dn{color:#43a047}
+  table{width:100%;border-collapse:collapse;font-size:.79rem}
+  th{background:#f5f6fa;padding:8px 10px;text-align:left;font-weight:600;color:#555;border-bottom:2px solid #e4e6ef}
+  td{padding:7px 10px;border-bottom:1px solid #f2f2f5;vertical-align:middle}
+  tr:hover td{background:#fafbff}
+  .badge{display:inline-block;padding:2px 9px;border-radius:10px;font-size:.68rem;font-weight:700}
+  .badge.h{background:#fdecea;color:#c62828}
+  .badge.m{background:#fff3e0;color:#e65100}
+  .badge.l{background:#e8f5e9;color:#2e7d32}
+  .no-rows{text-align:center;color:#aaa;padding:22px;font-style:italic}
+  .metric-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid #f2f2f5;font-size:.79rem}
+  .metric-row:last-child{border:none}
+  .metric-row .mname{color:#444;font-weight:600;display:flex;align-items:center;gap:6px}
+  .metric-row .mval{color:#1a2744;font-weight:700;white-space:nowrap}
+  .bar-track{flex:1;margin:0 12px;background:#edf0f7;border-radius:4px;height:8px}
+  .bar-fill{height:100%;border-radius:4px}
+  .best-badge{background:#e8f5e9;color:#2e7d32;font-size:.63rem;padding:1px 6px;border-radius:8px;font-weight:700}
+  .bbar-row{display:flex;align-items:center;gap:10px;padding:5px 0;font-size:.79rem}
+  .bbar-label{width:84px;color:#555;text-align:right;flex-shrink:0;font-size:.75rem}
+  .bbar-track{flex:1;background:#edf0f7;border-radius:4px;height:20px;overflow:hidden}
+  .bbar-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:7px;font-size:.7rem;font-weight:700;color:#fff;transition:width .35s ease}
+  .notice{grid-column:1/-1;background:#fffde7;border-left:5px solid #f9a825;border-radius:8px;padding:12px 18px;font-size:.78rem;color:#555;line-height:1.65}
+  .notice strong{color:#f57f17}
+  .cm-table{width:100%;border-collapse:collapse;font-size:.79rem;text-align:center}
+  .cm-table th{background:#f5f6fa;padding:7px;font-weight:600;color:#555;border:1px solid #e4e6ef}
+  .cm-table td{padding:10px 8px;border:1px solid #e4e6ef;font-weight:700}
+  .cm-tp,.cm-tn{background:#e8f5e9;color:#2e7d32}
+  .cm-fp{background:#fff3e0;color:#e65100}
+  .cm-fn{background:#fdecea;color:#c62828}
+  @media(max-width:860px){main{grid-template-columns:1fr}.kpi-strip{flex-wrap:wrap}}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>🗽 NYC Restaurant Inspection Risk Dashboard</h1>
+    <div class="sub">DOHMH Inspection Prioritisation · Model: Balanced Logistic Regression · Data: 2022–2025</div>
+  </div>
+  <div style="font-size:.73rem;opacity:.7;text-align:right">271,481 inspections · 51,803 model records<br>Last updated: March 2026</div>
+</header>
+
+<div class="filters">
+  <label>Borough
+    <select id="f-boro">
+      <option value="all">All Boroughs</option>
+      <option value="Manhattan">Manhattan</option>
+      <option value="Brooklyn">Brooklyn</option>
+      <option value="Queens">Queens</option>
+      <option value="Bronx">Bronx</option>
+      <option value="Staten Island">Staten Island</option>
+    </select>
+  </label>
+  <label>Cuisine
+    <select id="f-cuisine">
+      <option value="all">All Cuisines</option>
+      <option value="Chinese">Chinese</option>
+      <option value="American">American</option>
+      <option value="Italian">Italian</option>
+      <option value="French">French</option>
+      <option value="Mexican">Mexican</option>
+      <option value="Pizza">Pizza</option>
+      <option value="Coffee/Tea">Coffee/Tea</option>
+      <option value="Donuts">Donuts</option>
+    </select>
+  </label>
+  <label class="threshold-wrap">Risk Threshold: <span id="thresh-val" style="color:#1a2744;font-weight:700">0.35</span>
+    <input type="range" id="f-thresh" min="0" max="100" value="35">
+  </label>
+  <span class="chip" id="chip-count">Loading…</span>
+  <span class="chip">Recall (B/C): 69%</span>
+  <span class="chip">ROC-AUC: 0.68</span>
+</div>
+
+<main>
+  <div class="kpi-strip">
+    <div class="kpi red"><div class="val" id="kpi-flagged">—</div><div class="lbl">High-Risk Restaurants Flagged</div><div class="delta up" id="kpi-flagged-sub"></div></div>
+    <div class="kpi amber"><div class="val" id="kpi-avg-risk">—</div><div class="lbl">Avg Risk Score (Flagged)</div><div class="delta"></div></div>
+    <div class="kpi green"><div class="val" id="kpi-avg-score">—</div><div class="lbl">Avg Historical Score (Flagged)</div><div class="delta"></div></div>
+    <div class="kpi blue"><div class="val" id="kpi-critical-pct">—</div><div class="lbl">% with Critical Violations</div><div class="delta"></div></div>
+  </div>
+
+  <!-- Risk table -->
+  <div class="card" style="grid-column:1/2">
+    <h2>Flagged Restaurants — Ranked by Risk Score</h2>
+    <table>
+      <thead>
+        <tr><th>#</th><th>Restaurant</th><th>Borough</th><th>Cuisine</th><th>Risk Score</th><th>Last Grade</th><th>Hist. Avg Score</th><th>Status</th></tr>
+      </thead>
+      <tbody id="risk-table-body"></tbody>
+    </table>
+    <p style="font-size:.67rem;color:#aaa;margin-top:8px">⚠ Risk scores are model estimates only. Apply equity checks before scheduling.</p>
+  </div>
+
+  <!-- Right column -->
+  <div style="display:flex;flex-direction:column;gap:16px">
+
+    <div class="card">
+      <h2>Model Comparison — Recall for B/C Grades</h2>
+      <div class="metric-row">
+        <span class="mname">Logistic Regression</span>
+        <div class="bar-track"><div class="bar-fill" style="width:24%;background:#ef9a9a"></div></div>
+        <span class="mval">24%</span>
+      </div>
+      <div class="metric-row">
+        <span class="mname">Balanced LR <span class="best-badge">★ BEST</span></span>
+        <div class="bar-track"><div class="bar-fill" style="width:69%;background:#1e88e5"></div></div>
+        <span class="mval">69%</span>
+      </div>
+      <div class="metric-row">
+        <span class="mname">Random Forest</span>
+        <div class="bar-track"><div class="bar-fill" style="width:50%;background:#80cbc4"></div></div>
+        <span class="mval">50%</span>
+      </div>
+      <p style="font-size:.69rem;color:#aaa;margin-top:8px">Recall prioritised — catching high-risk restaurants matters most.</p>
+    </div>
+
+    <div class="card">
+      <h2>Confusion Matrix — Balanced LR (Full Test Set)</h2>
+      <table class="cm-table">
+        <thead><tr><th></th><th>Pred: Grade A</th><th>Pred: B/C</th></tr></thead>
+        <tbody>
+          <tr><td style="text-align:left;font-weight:600">True: Grade A</td><td class="cm-tn">6,163 ✓</td><td class="cm-fp">1,946</td></tr>
+          <tr><td style="text-align:left;font-weight:600">True: B/C</td><td class="cm-fn">698</td><td class="cm-tp">1,554 ✓</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:.69rem;color:#aaa;margin-top:8px">Catches 69% of high-risk restaurants. FPs are preferable to missed B/C grades.</p>
+    </div>
+
+    <div class="card">
+      <h2>Flagged Counts by Borough <span id="boro-subtitle" style="font-weight:400;text-transform:none;font-size:.75rem;color:#aaa"></span></h2>
+      <div id="boro-bars"></div>
+    </div>
+
+  </div>
+
+  <div class="notice">
+    <strong>⚖ Ethical Considerations</strong> — This tool supports, not replaces, inspector judgment.
+    Risk-based targeting must not disproportionately burden restaurants in lower-income areas.
+    Monitor flagging rates by neighbourhood; apply inspection-frequency caps; and share model scores
+    with restaurant owners so they can self-correct proactively.
+  </div>
+</main>
+
+<script>
+// ─── Synthetic restaurant dataset ───────────────────────────────────────────
+// 60 restaurants with realistic spread across boroughs, cuisines, grades, scores
+const RESTAURANTS = [
+  // Manhattan
+  {name:"City One",            boro:"Manhattan",     cuisine:"Chinese",    risk:0.87, grade:"B", hist:28.7, critical:1},
+  {name:"Loulou",              boro:"Manhattan",     cuisine:"French",     risk:0.68, grade:"C", hist:29.4, critical:1},
+  {name:"Starbucks #0881",     boro:"Manhattan",     cuisine:"Coffee/Tea", risk:0.19, grade:"A", hist:11.3, critical:0},
+  {name:"Shake Shack #12",     boro:"Manhattan",     cuisine:"American",   risk:0.22, grade:"A", hist:9.8,  critical:0},
+  {name:"Xi'an Famous Foods",  boro:"Manhattan",     cuisine:"Chinese",    risk:0.74, grade:"B", hist:31.1, critical:1},
+  {name:"Harlem Soul Food",    boro:"Manhattan",     cuisine:"American",   risk:0.61, grade:"B", hist:26.4, critical:1},
+  {name:"Fiore Harlem",        boro:"Manhattan",     cuisine:"Italian",    risk:0.33, grade:"A", hist:15.2, critical:0},
+  {name:"Dunkin #0442",        boro:"Manhattan",     cuisine:"Donuts",     risk:0.12, grade:"A", hist:10.1, critical:0},
+  {name:"Mezze Kitchen",       boro:"Manhattan",     cuisine:"Mexican",    risk:0.55, grade:"B", hist:22.0, critical:1},
+  {name:"Upper West Ramen",    boro:"Manhattan",     cuisine:"Chinese",    risk:0.79, grade:"C", hist:33.5, critical:1},
+  {name:"Bistro 225",          boro:"Manhattan",     cuisine:"French",     risk:0.48, grade:"A", hist:18.9, critical:0},
+  {name:"Pizza Palace MN",     boro:"Manhattan",     cuisine:"Pizza",      risk:0.41, grade:"A", hist:17.4, critical:0},
+
+  // Brooklyn
+  {name:"River Deli",          boro:"Brooklyn",      cuisine:"Italian",    risk:0.71, grade:"A", hist:22.1, critical:1},
+  {name:"Dunkin #3301",        boro:"Brooklyn",      cuisine:"Donuts",     risk:0.14, grade:"A", hist:10.8, critical:0},
+  {name:"228 Asian Bistro",    boro:"Brooklyn",      cuisine:"Chinese",    risk:0.82, grade:"B", hist:30.6, critical:1},
+  {name:"Bolo Bolo",           boro:"Brooklyn",      cuisine:"American",   risk:0.29, grade:"A", hist:13.7, critical:0},
+  {name:"Sunset Tacos",        boro:"Brooklyn",      cuisine:"Mexican",    risk:0.66, grade:"B", hist:27.8, critical:1},
+  {name:"Carroll Gardens Pizza",boro:"Brooklyn",     cuisine:"Pizza",      risk:0.38, grade:"A", hist:16.1, critical:0},
+  {name:"Bushwick Noodle Bar", boro:"Brooklyn",      cuisine:"Chinese",    risk:0.58, grade:"B", hist:24.3, critical:1},
+  {name:"Park Slope Café",     boro:"Brooklyn",      cuisine:"Coffee/Tea", risk:0.17, grade:"A", hist:11.0, critical:0},
+  {name:"Williamsburg Grill",  boro:"Brooklyn",      cuisine:"American",   risk:0.44, grade:"A", hist:18.5, critical:0},
+  {name:"Red Hook Seafood",    boro:"Brooklyn",      cuisine:"American",   risk:0.76, grade:"C", hist:32.2, critical:1},
+
+  // Queens
+  {name:"Subway #4412",        boro:"Queens",        cuisine:"American",   risk:0.42, grade:"A", hist:14.9, critical:0},
+  {name:"L'Artigiano Gelato",  boro:"Queens",        cuisine:"Italian",    risk:0.25, grade:"A", hist:12.3, critical:0},
+  {name:"Flushing Dim Sum",    boro:"Queens",        cuisine:"Chinese",    risk:0.88, grade:"C", hist:35.4, critical:1},
+  {name:"Jackson Heights Curry",boro:"Queens",       cuisine:"American",   risk:0.63, grade:"B", hist:26.9, critical:1},
+  {name:"Astoria Souvlaki",    boro:"Queens",        cuisine:"American",   risk:0.37, grade:"A", hist:15.8, critical:0},
+  {name:"Forest Hills Sushi",  boro:"Queens",        cuisine:"American",   risk:0.51, grade:"B", hist:20.4, critical:1},
+  {name:"Queens Pizza Co.",    boro:"Queens",        cuisine:"Pizza",      risk:0.33, grade:"A", hist:14.2, critical:0},
+  {name:"Jamaica Jerk Shack",  boro:"Queens",        cuisine:"American",   risk:0.70, grade:"B", hist:29.7, critical:1},
+  {name:"Bayside Diner",       boro:"Queens",        cuisine:"American",   risk:0.21, grade:"A", hist:10.5, critical:0},
+  {name:"Elmhurst Noodle House",boro:"Queens",       cuisine:"Chinese",    risk:0.83, grade:"C", hist:34.0, critical:1},
+
+  // Bronx
+  {name:"Lucky Garden",        boro:"Bronx",         cuisine:"Chinese",    risk:0.91, grade:"C", hist:34.2, critical:1},
+  {name:"Fordham Grill",       boro:"Bronx",         cuisine:"American",   risk:0.69, grade:"B", hist:28.1, critical:1},
+  {name:"Tremont Tacos",       boro:"Bronx",         cuisine:"Mexican",    risk:0.57, grade:"B", hist:23.6, critical:1},
+  {name:"Hunts Point Deli",    boro:"Bronx",         cuisine:"American",   risk:0.85, grade:"C", hist:36.1, critical:1},
+  {name:"Grand Concourse Pizza",boro:"Bronx",        cuisine:"Pizza",      risk:0.46, grade:"A", hist:19.2, critical:0},
+  {name:"Mott Haven Kitchen",  boro:"Bronx",         cuisine:"American",   risk:0.73, grade:"B", hist:30.9, critical:1},
+  {name:"Riverdale Café",      boro:"Bronx",         cuisine:"Coffee/Tea", risk:0.18, grade:"A", hist:10.9, critical:0},
+  {name:"Pelham Bay Noodles",  boro:"Bronx",         cuisine:"Chinese",    risk:0.78, grade:"B", hist:31.5, critical:1},
+  {name:"South Bronx BBQ",     boro:"Bronx",         cuisine:"American",   risk:0.62, grade:"B", hist:25.8, critical:1},
+  {name:"Co-op City Subs",     boro:"Bronx",         cuisine:"American",   risk:0.27, grade:"A", hist:12.8, critical:0},
+
+  // Staten Island
+  {name:"SI Ferry Grill",      boro:"Staten Island", cuisine:"American",   risk:0.39, grade:"A", hist:16.6, critical:0},
+  {name:"New Dorp Pizza",      boro:"Staten Island", cuisine:"Pizza",      risk:0.52, grade:"B", hist:21.3, critical:1},
+  {name:"Stapleton Diner",     boro:"Staten Island", cuisine:"American",   risk:0.31, grade:"A", hist:13.5, critical:0},
+  {name:"Tottenville Sushi",   boro:"Staten Island", cuisine:"American",   risk:0.45, grade:"A", hist:18.0, critical:0},
+  {name:"Forest Ave Wok",      boro:"Staten Island", cuisine:"Chinese",    risk:0.67, grade:"B", hist:27.2, critical:1},
+  {name:"Port Richmond Tacos", boro:"Staten Island", cuisine:"Mexican",    risk:0.59, grade:"B", hist:24.5, critical:1},
+
+  // More cross-borough variety
+  {name:"Dumbo Crepes",        boro:"Brooklyn",      cuisine:"French",     risk:0.36, grade:"A", hist:15.5, critical:0},
+  {name:"Crown Heights Rice",  boro:"Brooklyn",      cuisine:"American",   risk:0.77, grade:"C", hist:32.8, critical:1},
+  {name:"Corona Pupusas",      boro:"Queens",        cuisine:"Mexican",    risk:0.60, grade:"B", hist:25.1, critical:1},
+  {name:"Inwood Cafe",         boro:"Manhattan",     cuisine:"Coffee/Tea", risk:0.23, grade:"A", hist:11.7, critical:0},
+  {name:"Kingsbridge Pasta",   boro:"Bronx",         cuisine:"Italian",    risk:0.49, grade:"A", hist:20.0, critical:0},
+  {name:"Brighton Beach Deli", boro:"Brooklyn",      cuisine:"American",   risk:0.54, grade:"B", hist:22.9, critical:1},
+  {name:"Rego Park Falafel",   boro:"Queens",        cuisine:"American",   risk:0.43, grade:"A", hist:17.8, critical:0},
+  {name:"East Harlem Empanadas",boro:"Manhattan",    cuisine:"Mexican",    risk:0.72, grade:"B", hist:30.3, critical:1},
+  {name:"Bay Ridge Steak",     boro:"Brooklyn",      cuisine:"American",   risk:0.35, grade:"A", hist:15.0, critical:0},
+  {name:"Bronx Terminal Grill",boro:"Bronx",         cuisine:"American",   risk:0.80, grade:"C", hist:33.7, critical:1},
+];
+
+const BORO_COLORS = {
+  "Manhattan":"#8e24aa","Brooklyn":"#1e88e5",
+  "Queens":"#fb8c00","Bronx":"#e53935","Staten Island":"#43a047"
+};
+
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+const $ = id => document.getElementById(id);
+function badge(r){ return r>=.65?'<span class="badge h">HIGH</span>':r>=.35?'<span class="badge m">MEDIUM</span>':'<span class="badge l">LOW</span>'; }
+function fmt(n,dec=0){ return n.toLocaleString(undefined,{minimumFractionDigits:dec,maximumFractionDigits:dec}); }
+
+// ─── Main render ─────────────────────────────────────────────────────────────
+function render(){
+  const boro    = $("f-boro").value;
+  const cuisine = $("f-cuisine").value;
+  const thresh  = $("f-thresh").value / 100;
+
+  $("thresh-val").textContent = thresh.toFixed(2);
+
+  // Filter
+  let rows = RESTAURANTS.filter(r => {
+    if(boro    !== "all" && r.boro    !== boro)    return false;
+    if(cuisine !== "all" && r.cuisine !== cuisine) return false;
+    if(r.risk < thresh) return false;
+    return true;
+  }).sort((a,b) => b.risk - a.risk);
+
+  const total = RESTAURANTS.filter(r => {
+    if(boro !== "all" && r.boro !== boro) return false;
+    if(cuisine !== "all" && r.cuisine !== cuisine) return false;
+    return true;
+  }).length;
+
+  // Chip
+  $("chip-count").textContent = `${fmt(total)} total · threshold ${thresh.toFixed(2)}`;
+
+  // KPIs
+  $("kpi-flagged").textContent = fmt(rows.length);
+  $("kpi-flagged-sub").textContent = rows.length
+    ? `${fmt(Math.round(rows.length/total*100))}% of filtered set`
+    : "No restaurants above threshold";
+
+  if(rows.length){
+    const avgRisk  = rows.reduce((s,r)=>s+r.risk,0)/rows.length;
+    const avgScore = rows.reduce((s,r)=>s+r.hist,0)/rows.length;
+    const critPct  = rows.filter(r=>r.critical).length/rows.length*100;
+    $("kpi-avg-risk").textContent  = avgRisk.toFixed(2);
+    $("kpi-avg-score").textContent = avgScore.toFixed(1);
+    $("kpi-critical-pct").textContent = fmt(critPct,0)+"%";
+  } else {
+    $("kpi-avg-risk").textContent = "—";
+    $("kpi-avg-score").textContent = "—";
+    $("kpi-critical-pct").textContent = "—";
+  }
+
+  // Table
+  const tbody = $("risk-table-body");
+  if(!rows.length){
+    tbody.innerHTML = `<tr><td colspan="8" class="no-rows">No restaurants above threshold for this filter combination.</td></tr>`;
+  } else {
+    tbody.innerHTML = rows.slice(0,12).map((r,i)=>`
+      <tr>
+        <td style="color:#aaa">${i+1}</td>
+        <td><strong>${r.name}</strong></td>
+        <td>${r.boro}</td>
+        <td>${r.cuisine}</td>
+        <td style="font-weight:700;color:#1a2744">${r.risk.toFixed(2)}</td>
+        <td style="font-weight:700;color:${r.grade==='A'?'#2e7d32':r.grade==='B'?'#e65100':'#c62828'}">${r.grade}</td>
+        <td>${r.hist.toFixed(1)}</td>
+        <td>${badge(r.risk)}</td>
+      </tr>`).join("");
+  }
+
+  // Borough bars
+  const boroCounts = {};
+  const boroAll = boro === "all"
+    ? ["Brooklyn","Manhattan","Queens","Bronx","Staten Island"]
+    : [boro];
+
+  boroAll.forEach(b => {
+    boroCounts[b] = RESTAURANTS.filter(r =>
+      r.boro === b &&
+      (cuisine === "all" || r.cuisine === cuisine) &&
+      r.risk >= thresh
+    ).length;
+  });
+
+  const maxCount = Math.max(...Object.values(boroCounts), 1);
+  $("boro-subtitle").textContent = cuisine !== "all" ? `· ${cuisine}` : "";
+
+  $("boro-bars").innerHTML = boroAll.map(b => `
+    <div class="bbar-row">
+      <span class="bbar-label">${b === "Staten Island" ? "Staten Is." : b}</span>
+      <div class="bbar-track">
+        <div class="bbar-fill" style="width:${Math.max(boroCounts[b]/maxCount*100,3)}%;background:${BORO_COLORS[b]}">
+          ${boroCounts[b] > 0 ? boroCounts[b] : ""}
+        </div>
+      </div>
+    </div>`).join("");
+}
+
+// ─── Event listeners ─────────────────────────────────────────────────────────
+["f-boro","f-cuisine","f-thresh"].forEach(id => $( id).addEventListener("input", render));
+
+render(); // initial
+</script>
+</body>
+</html>
