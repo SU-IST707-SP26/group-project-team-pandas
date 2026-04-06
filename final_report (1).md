@@ -167,6 +167,14 @@ With appropriate equity safeguards — threshold monitoring by neighbourhood, ca
 
 ---
 
+## Interactive Dashboard
+
+To view the live dashboard, open the link below:
+
+[Restaurant Dashboard Link](https://htmlpreview.github.io/?https://github.com/SU-IST707-SP26/group-project-team-pandas/blob/main/dashboard_mockup.html)
+
+Or download `dashboard_mockup.html` and open it locally in any browser.
+
 ## 7. References
 
 1. Jin, G. Z., & Leslie, P. (2003). The effect of information on product quality: Evidence from restaurant hygiene grade cards. *Quarterly Journal of Economics.*
