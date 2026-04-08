@@ -1,8 +1,16 @@
 # Predicting NYC Restaurant Health Inspection Grades
 
-**Team:** Jessica Aimunmondion (POC), Joel Barnes, Mian Hamid, Zeek Moore  
+**Team:** Jessica Aimunmondion (POC), Joel Barnes, Mian Hamid (mian7h), Zeek Moore  
 **Course:** Syracuse University — IST 707 Machine Learning  
-**Date:** Spring 2026  
+**Date:** Spring 2026
+
+## Interactive Dashboard
+
+To view the live dashboard, open the link below:
+
+[Restaurant Dashboard Link](https://htmlpreview.github.io/?https://github.com/SU-IST707-SP26/group-project-team-pandas/blob/main/dashboard_mockup.html)
+
+Or download `dashboard_mockup.html` and open it locally in any browser.
 
 ---
 
@@ -166,14 +174,6 @@ The strongest predictors are **prior inspection count** and **critical violation
 With appropriate equity safeguards — threshold monitoring by neighbourhood, capping on repeat inspections, and transparency to restaurant owners — this system could meaningfully improve food safety outcomes for New York City residents while reducing unnecessary burdens on compliant establishments.
 
 ---
-
-## Interactive Dashboard
-
-To view the live dashboard, open the link below:
-
-[Restaurant Dashboard Link](https://htmlpreview.github.io/?https://github.com/SU-IST707-SP26/group-project-team-pandas/blob/main/dashboard_mockup.html)
-
-Or download `dashboard_mockup.html` and open it locally in any browser.
 
 ## 7. References
 
