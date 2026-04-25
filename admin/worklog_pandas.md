@@ -76,44 +76,62 @@
 ## Team Worklog (Mar 29 – Apr 11, 2026)
 
 ### Team Members and Roles
-- **Jessica** –   
-- **Zeek** –   
-- **Joel** –   
-- **Mian** – 
+- **Jessica** – N/A 
+- **Zeek** – Ensured consistency across the codebase
+- **Joel** – Model interpretation, explainability analysis, and error diagnostics
+- **Mian** – Created Dashboard (started)
 
 ### Tasks Completed
-
+- Ensured consistency across the codebase
+- Began model interpretation and explainability analysis
+- Conducted error diagnostics 
+- Started dashboard creation
 
 ### Notes
+- This phase focused on evaluating **model performance** and **interpreting results** to ensure alignment with project objectives.
+- Seperate Branch was created(temp-work) to explore possible changes that could be made
+- Sprint goal: Interpretable results and performance insights generated.
+- Marked Complete as of Apr 11, 2026. Priority: Medium.
 
 
 ## Team Worklog (Apr 12 – Apr 25, 2026)
 
 ### Team Members and Roles
-- **Jessica** –   
-- **Zeek** –   
-- **Joel** –   
-- **Mian** – 
+- **Jessica** – N/A 
+- **Zeek** – Checked to ensure geo information is added to pipeline; experimented with changes to code
+- **Joel** – Model interpretation, explainability analysis, error diagnostics (committed and pushed); Final Presentation created
+- **Mian** – Visualization development and prototype dashboard design; checked geo information addition to pipeline
 
 ### Tasks Completed
-
+- Verified if geographical information was added to the pipeline (Zeek & Mian)
+- Completed and committed model interpretation, explainability analysis, and error diagnostics (Joel)
+- Created Final Presentation (Joel)
+- Completed visualization development and prototype dashboard design (Mian)
 
 ### Notes
+- This later stage of the project allowed teammates to begin preparation to present findings to audience members
+- Sprint goal: Risk dashboard mockup completed.
+- Marked Complete as of Apr 25, 2026. Priority: Medium.
 
 
 ## Team Worklog (Apr 26 – May 5, 2026)
 
 ### Team Members and Roles
-- **Jessica** –   
-- **Zeek** –   
-- **Joel** –   
-- **Mian** – 
+- **Jessica** –
+- **Zeek** –
+- **Joel** –
+- **Mian** –
 
 ### Tasks Completed
-
+- Final report writing
+- Code documentation
+- GitHub cleanup
+- Submission preparation
 
 ### Notes
- 
+- Sprint goal: Completed final submission.
+- Due May 5, 2026. Priority: High. Status: Not Started.
+
 
 
 
