@@ -103,12 +103,15 @@
 - **Mian** – Visualization development and prototype dashboard design; checked geo information addition to pipeline
 
 ### Tasks Completed
-- Verified if geographical information was added to the pipeline (Zeek & Mian)
+- Verified if geographical information was added to the pipeline; done within temp-work branch (Zeek & Mian)
+- Updated WORKLOG and WORKPLAN(Mian & Zeek)
 - Completed and committed model interpretation, explainability analysis, and error diagnostics (Joel)
 - Created Final Presentation (Joel)
 - Completed visualization development and prototype dashboard design (Mian)
+- Assesed changes to see which adjustments deserve to be promoted to main branch(Mian & Zeek)
 
 ### Notes
+- 
 - This later stage of the project allowed teammates to begin preparation to present findings to audience members
 - Sprint goal: Risk dashboard mockup completed.
 - Marked Complete as of Apr 25, 2026. Priority: Medium.
