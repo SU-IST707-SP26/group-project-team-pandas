@@ -50,7 +50,7 @@
 - Work during this period focused on preparing and finalizing the **midterm report** while continuing progress on feature engineering.
 
 
-## Team Worklog (Mar 15 – Mar 18, 2026)
+## Team Worklog (Mar 15 – Mar 28, 2026)
 
 ### Team Members and Roles
 - **Jessica** – Refined modeling approach, implemented target variable, led notebook restructuring and GitHub organization  
@@ -71,3 +71,53 @@
 ### Notes
 - This phase focused on aligning the project with stakeholder goals and finalizing the modeling pipeline.  
 - Emphasis was placed on **recall and interpretability** to support proactive decision making for restaurant owners.  
+
+
+## Team Worklog (Mar 29 – Apr 11, 2026)
+
+### Team Members and Roles
+- **Jessica** –   
+- **Zeek** –   
+- **Joel** –   
+- **Mian** – 
+
+### Tasks Completed
+
+
+### Notes
+
+
+## Team Worklog (Apr 12 – Apr 25, 2026)
+
+### Team Members and Roles
+- **Jessica** –   
+- **Zeek** –   
+- **Joel** –   
+- **Mian** – 
+
+### Tasks Completed
+
+
+### Notes
+
+
+## Team Worklog (Apr 26 – May 5, 2026)
+
+### Team Members and Roles
+- **Jessica** –   
+- **Zeek** –   
+- **Joel** –   
+- **Mian** – 
+
+### Tasks Completed
+
+
+### Notes
+ 
+
+
+
+
+
+
+
