@@ -75,16 +75,46 @@
 
 ## Changelog
 
-### 2026-04-25
-- (Team) Reconciled workplan against spreadsheet worklog; updated all milestones to reflect current state
-- (Mian) Completed M7.T1 — Visualization development and prototype dashboard design (Apr 12–Apr 25)
-- (Joel) Completed M7.T3 — Explainability analysis and error diagnostics committed and pushed
-- (Team) Added Milestone 8 for final report, submission, and presentation (deadline May 5, 2026)
-- (Team) Marked Milestone 7 fully complete; M8.T1 set as current active task
+### 2026-02-14
+- (Jessica, Joel) ✅ M1.T1 — Acquired and uploaded NYC restaurant inspection dataset
+
+### 2026-02-28
+- (Zeek) ✅ M2.T4 — Implemented binary features: chain vs independent, target encoding (cuisine description), frequency encoding (violation codes), one-hot encoding (inspection type, boro)
+- (Zeek) ✅ M2.T5 — Explored text features: violation descriptions, business names, addresses
+- (Mian) ✅ M2.T1 — Reduced inspection year range from 2015–2025 to 2022–2025; analyzed inspection volume spikes
+- (Joel, Jessica) ✅ M3.T5 — Completed feature engineering research; identified domain-relevant features as highest priority
+- (Team) ✅ M3.T1 — Created temporal features (month, year)
+
+### 2026-03-07
+- (Zeek, Mian) ✅ Wrote the mid-term report
+- (Joel) ✅ Pushed mid-term file from Google Doc to GitHub (`checkpoint/projectmidtermreport`)
+- (Zeek) ✅ Uploaded plots and plot analysis to `checkpoint/`
+
+### 2026-03-14
+- (Jessica) ✅ M4.T5 — Project coordination; identified top 10 independent restaurant chains
+- (Zeek) ✅ M2.T4 — Implemented frequency encoding for text features and one-hot encoding for categorical variables
 
 ### 2026-03-18
 - (Team) M3.T4 — Pivoted from inspection outcome prediction to inspection likelihood prediction based on professor feedback
-- (Jessica) Completed M4.T3 — Balanced logistic regression improved recall for inspections to 69%
-- (Jessica) Completed M5.T1 — Hyperparameter tuning improved accuracy but not recall; retained balanced logistic regression as primary recall model
-- (Jessica) Added M6.T3 — Confusion matrix analysis added for all three models
-- (Jessica) Completed M7.T4 — Restructured project into modular notebooks and cleaned GitHub (removed large files)
+- (Jessica) ✅ M4.T3 — Balanced logistic regression improved recall for inspections to 69%
+- (Jessica) ✅ M5.T1 — Hyperparameter tuning improved accuracy but not recall; retained balanced logistic regression as primary recall model
+
+
+### 2026-03-28
+- (Jessica) ✅ M5.T2 — Refined modeling approach; restructured project from single notebook (`01_initial_exploration.ipynb`) into modular notebooks (`00` through `07`); added `.gitignore`
+- (Jessica) ✅ M3.T4 — Implemented target variable for inspection within 90 days
+- (Jessica) ✅ M5.T1 — Hyperparameter tuning improved accuracy but not recall; retained balanced logistic regression
+
+
+### 2026-04-11
+- (Joel) ✅ M6.T6 — model interpretation, explainability analysis, and error diagnostics
+- (Joel) ✅ M6.T3 — Created and refined confusion matrices across `05_baseline_modeling.ipynb` and `06_model_evaluation_and_interpretation.ipynb`; edited confusion matrix logic across full notebook pipeline
+- (Zeek) 🆕 Created `temp-work` branch for experimental pipeline changes
+- (Zeek) Refactored `03_inspection_level_preprocessing.ipynb` on `temp-work` — replaced static two-column groupby with dynamic `agg_spec` that conditionally includes contextual columns
+
+
+
+### 2026-04-25
+- (Team) Reconciled workplan against spreadsheet worklog
+- (Joel) Completed M7.T3 — Explainability analysis and error diagnostics committed and pushed
+
