@@ -48,9 +48,9 @@
 ---
 
 ### Milestone 7: Final Outputs & Submission
-- [⏳] M7.T1 — Design dashboard mockup (Team)
-- [⏳] M7.T2 — Write final report (Team)
-- [ ] M7.T3 — Final presentation preparation (Team)
+- [✅] M7.T1 — Design dashboard mockup (Mian)
+- [✅] M7.T2 — Write final report (Team)
+- [✅] M7.T3 — Final presentation preparation (Team)
 - [✅] M7.T4 — Organize notebooks and GitHub structure (Jessica)
 
 ---
