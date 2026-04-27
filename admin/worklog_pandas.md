@@ -76,65 +76,46 @@
 ## Team Worklog (Mar 29 – Apr 11, 2026)
 
 ### Team Members and Roles
-- **Jessica** – N/A 
-- **Zeek** – Ensured consistency across the codebase
-- **Joel** – Model interpretation, explainability analysis, and error diagnostics
-- **Mian** – Created Dashboard (started)
+- **Jessica** – Data preprocessing refinement, project coordination, documentation review  
+- **Zeek** – Ensured consistency across the codebase and branch management  
+- **Joel** – Model interpretation, explainability analysis, and error diagnostics  
+- **Mian** – Dashboard planning and initial prototype development  
 
 ### Tasks Completed
-- Ensured consistency across the codebase
-- Began model interpretation and explainability analysis
-- Conducted error diagnostics 
-- Started dashboard creation
+- Reviewed and improved preprocessing workflow  
+- Ensured consistency across the codebase  
+- Began model interpretation and explainability analysis  
+- Conducted error diagnostics  
+- Started dashboard creation  
 
 ### Notes
-- This phase focused on evaluating **model performance** and **interpreting results** to ensure alignment with project objectives.
-- Seperate Branch was created(temp-work) to explore possible changes that could be made
-- Sprint goal: Interpretable results and performance insights generated.
-- Marked Complete as of Apr 11, 2026. Priority: Medium.
+- This phase focused on evaluating model performance and interpreting results to ensure alignment with project objectives.  
+- A separate branch (`temp-work`) was created to test possible improvements before merging.  
+- Sprint goal: Interpretable results and performance insights generated.  
+- Marked complete as of Apr 11, 2026. Priority: Medium.  
 
 
 ## Team Worklog (Apr 12 – Apr 25, 2026)
 
 ### Team Members and Roles
-- **Jessica** – N/A 
-- **Zeek** – Checked to ensure geo information is added to pipeline; experimented with changes to code
-- **Joel** – Model interpretation, explainability analysis, error diagnostics (committed and pushed); Final Presentation created
-- **Mian** – Visualization development and prototype dashboard design; checked geo information addition to pipeline
+- **Jessica** – Presentation refinement, project coordination, final review support  
+- **Zeek** – Verified geographic information in pipeline and tested code updates  
+- **Joel** – Completed model interpretation, explainability analysis, error diagnostics, and built final presentation  
+- **Mian** – Visualization development, prototype dashboard design, and pipeline validation support  
 
 ### Tasks Completed
-- Verified if geographical information was added to the pipeline; done within temp-work branch (Zeek & Mian)
-- Updated WORKLOG and WORKPLAN(Mian & Zeek)
-- Completed and committed model interpretation, explainability analysis, and error diagnostics (Joel)
-- Created Final Presentation (Joel)
-- Completed visualization development and prototype dashboard design (Mian)
-- Assesed changes to see which adjustments deserve to be promoted to main branch(Mian & Zeek)
+- Verified geographic information was added to the pipeline using `temp-work` branch  
+- Updated worklog and workplan  
+- Completed and committed model interpretation, explainability analysis, and error diagnostics  
+- Created final presentation deck  
+- Completed visualization development and prototype dashboard design  
+- Assessed changes for promotion to main branch  
 
 ### Notes
-- 
-- This later stage of the project allowed teammates to begin preparation to present findings to audience members
-- Sprint goal: Risk dashboard mockup completed.
-- Marked Complete as of Apr 25, 2026. Priority: Medium.
-
-
-## Team Worklog (Apr 26 – May 5, 2026)
-
-### Team Members and Roles
-- **Jessica** –
-- **Zeek** –
-- **Joel** –
-- **Mian** –
-
-### Tasks Completed
-- Final report writing
-- Code documentation
-- GitHub cleanup
-- Submission preparation
-
-### Notes
-- Sprint goal: Completed final submission.
-- Due May 5, 2026. Priority: High. Status: Not Started.
-
+- This phase focused on finalizing outputs and preparing findings for presentation.  
+- Team reviewed which experimental changes should be merged into the main branch.  
+- Sprint goal: Risk dashboard mockup completed.  
+- Marked complete as of Apr 25, 2026. Priority: Medium.
 
 
 
