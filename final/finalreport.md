@@ -31,26 +31,26 @@ If the work does not fully solve the problem, it is by design an incremental ste
 
 #### Methods
 
-[Zeek — write this section. Cover the following in order:
+The dataset was filtered to inspection records between 2022 and 2025 to focus on post-pandemic patterns and avoid inconsistencies introduced by COVID-era closures and reduced enforcement. Where latitude or longitude values were missing or recorded as zero, borough-level median coordinates were imputed to preserve the record.
 
-1. Preprocessing: temporal filtering to 2022–2025, geocoding and spatial join to census blocks, handling missing lat/long values with borough median imputation, exclusion of records with ungeocodable locations (approximately 15% data loss).
+1. **Preprocessing**:
+Preprocessing and early-stage encoding explored several directions — frequency encoding for violation codes, target encoding for cuisine descriptions, TF-IDF vectorization of violation text, and binary chain detection — though not all of these carried through to the final modeling pipeline. The features that reached the model included: historical aggregation features (average score, average critical violations, prior inspection count, days since last inspection, score change from previous), violation counts (total violations, critical violations), one-hot encoding for borough, time-since-open proxy (days since first inspection with 5-year default assumption), and geographic/socioeconomic features (latitude, longitude, zipcode, zip average score, zip restaurant count, zip inspections per restaurant, median household income, population density, poverty rate).
 
-2. Feature engineering: historical aggregation features (avg score, avg critical violations, prior inspection count, days since last inspection, score change from previous), binary features (chain vs independent), frequency encoding for text features, one-hot encoding for borough, time since open proxy (days since first inspection with 5-year default assumption), and geographic/socioeconomic features (latitude, longitude, zipcode, zip avg score, zip restaurant count, zip inspections per restaurant, median household income, population density, poverty rate).
+2. **Feature engineering**:
+The historical aggregation features were computed using two approaches: average score, average critical violations, and prior inspection count used expanding windows with a one-row shift to prevent data leakage, while days since last inspection used a simple date difference and score change used a lagged subtraction. The time-since-open proxy estimated each restaurant's age by assuming it opened five years before its first recorded inspection and computing the elapsed days. For the geographic and socioeconomic features, raw coordinates and zipcode were preserved through the inspection-level groupby via a dynamic aggregation spec, then cleaned in the feature engineering stage by replacing zero-valued coordinates with borough median imputation. Zipcode-level proxies were derived by aggregating the inspection data itself per zipcode, while borough-level socioeconomic indicators were merged from hardcoded U.S. Census ACS 5-year estimates.
 
-3. Target variable: binary indicator for inspection within 90 days.
+3. **Target variable**: 
+The target variable was defined as a binary indicator: whether a given restaurant would receive an inspection within the next 90 days. In practice, this was computed from each restaurant's inspection history by checking whether a subsequent inspection occurred within 90 days of the current record; rows with no future inspection were excluded. The train/test split followed a union strategy in which every restaurant appearing in the test set was also represented in the training set with zeroed-out feature rows. This design choice addressed the blind spot of never-inspected restaurants by ensuring the model encountered every establishment during training, even those with no prior inspection history to learn from.
 
-4. Train/test split with union strategy: every restaurant in the test set was also represented in training with zeroed feature rows to avoid the blind spot of never-inspected restaurants.
+4. **Models**: 
+Three models were trained and evaluated. A baseline logistic regression served as the reference point. A balanced logistic regression applied class weights inversely proportional to class frequency, penalizing the model more heavily for missing actual inspections. A random forest with 100 estimators was trained as a nonlinear comparison. Both logistic regression models used a StandardScaler via a scikit-learn Pipeline to normalize the wide feature value ranges introduced by the geographic and socioeconomic columns.
 
-5. Models: logistic regression, balanced logistic regression with class weights, and random forest with 100 estimators. Logistic regression models used StandardScaler via Pipeline to handle the wide feature value ranges introduced by geo and socioeconomic columns.
-
-6. Explain why XGBoost was considered but not used — training time was prohibitive on the full dataset.]
 
 #### Supporting Files
 
 The following notebooks in the `work/` folder contain all supporting analysis for this report:
 
 | Notebook | Purpose |
-|---|---|
 | `01_2_data_loading_and_cleaning.ipynb` | Initial data ingestion, cleaning, and validation |
 | `02_exploratory_data_analysis.ipynb` | EDA including distributions, class balance, and spike inspection |
 | `03_inspection_level_preprocessing.ipynb` | Inspection-level feature prep and target variable creation |
@@ -105,7 +105,9 @@ Additional results including confusion matrices, feature importance charts, and 
 
 ### Future Work
 
-[Zeek — write this section. Cover the following: integrating actual restaurant open dates from the NYC business license database to replace the time since open proxy, block-level socioeconomic features rather than borough-level for finer geographic resolution, exploring graph neural networks or spatial models that can learn from neighboring restaurant patterns, incorporating NYC 311 complaint data as an additional signal, building a live inspector-facing dashboard that pulls from the model in real time, and expanding the training window beyond 2022–2025 to capture longer-term patterns. Aim for 1–2 paragraphs.]
+Several directions could strengthen the model's ability to surface high-risk and under-inspected restaurants. The time-since-open feature currently relies on a proxy that assumes each restaurant opened five years before its first recorded inspection. Integrating actual open dates from the NYC business license database would eliminate this assumption and produce a more reliable signal. Similarly, the socioeconomic features used in this project operate at the borough level, which groups vastly different neighborhoods together. Replacing these with block-level or tract-level Census ACS data, mapped through HUD USPS crosswalk files, would give the model much finer geographic resolution and a better ability to distinguish between neighborhoods within the same borough.
+
+Beyond data improvements, the modeling approach itself could benefit from architectures that explicitly capture spatial relationships. Graph neural networks or spatial models could learn from patterns among neighboring restaurants. This could help determine whether a cluster of violations in one block predicts risk for nearby establishments. Incorporating NYC 311 complaint data as an additional input signal would give the model access to community-reported concerns that often precede formal inspections. On the deployment side, building a live inspector-facing dashboard that pulls predictions from the model in real time would translate the analysis into an operational tool. Finally, expanding the training window beyond 2022–2025 to include pre-pandemic years would allow the model to capture longer-term cyclical patterns in inspection behavior, though this would require careful handling of the disruption introduced by COVID-era enforcement changes.
 
 ---
 
