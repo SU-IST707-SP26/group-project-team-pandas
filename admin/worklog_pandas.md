@@ -1,3 +1,22 @@
+
+## 2026-05-05 - Final Report, Documentation, and Submission (Team)
+**Context**: All project deliverables must be finalized, documented, and submitted by the deadline.
+
+**Status**: Complete | **Priority**: High
+
+**Completed Work**:
+- (Joel) Historical feature engineering, and `time_since_open_days` feature 
+- (Jessica) Union-based train/test split
+- (Zeek and Mian) Pushed geo columns through pipeline, geo/socioeconomic feature engineering, and notebook 05 feature list updates
+
+**Final Deliverables**:
+- (Team) Final Report, Adjustments made to Code, GitHub Cleanup, Final Review and Submission Prep
+
+
+**Files Modified**: `final_report (1).md`, `README.md`, `04_feature_engineering.ipynb`, `05_baseline_modeling.ipynb`, `admin/worklog_pandas.md`
+
+---
+
 ## 2026-04-26 - Geographic Integration and Professor Feedback Implementation (Team)
 
 **Context**: Holding off on merging geographic features pending professor feedback. Feedback received and team now moving to integrate geo features alongside two additional recommendations.
