@@ -118,3 +118,13 @@
 - (Team) Reconciled workplan against spreadsheet worklog
 - (Joel) Completed M7.T3 — Explainability analysis and error diagnostics committed and pushed
 
+### 2026-05-01
+(Joel) ✅ M3.T6 — Added time_since_open_days feature to inspection_model_df in notebook 04; estimates restaurant open date as 5 years before first inspection and computes days elapsed
+
+### 2026-05-02
+(Zeek) ✅ M7.T2 — Pushed Option A fix to main: refactored notebook 03 .agg() to carry boro, zipcode, latitude, longitude through the pipeline
+(Zeek, Mian) ✅ M3.T7 — Wrote geo/socioeconomic feature engineering code for notebook 04: lat/long cleaning, borough encoding, spatial grid, zipcode-level proxies, borough-level Census/ACS data, inspection coverage ratio; code ready, pending insertion and testing
+(Zeek, Mian) ✅ M5.T8 — Wrote notebook 05 edits to add new geo/socioeconomic feature names to Jessica's feature list; on branch, not yet merged to main
+
+### 2026-05-03
+(Jessica) ✅ M5.T7 — Working on union-based train/test approach: every restaurant in test set also appears in training set with zeroed-out inspection rows to prevent data leakage
