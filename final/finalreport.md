@@ -1,7 +1,7 @@
 # Predicting NYC Restaurant Inspection Likelihood
 
 ### Team
-Jessica Aimunmondion — POC (GitHub: jessdion), Joel Barnes (GitHub: [ GitHub ID: jjbarnes21]), Mian Hamid (GitHub: [Mian's GitHub ID]), Zeek Moore (GitHub: [Zeek's GitHub ID])
+Jessica Aimunmondion — POC (GitHub: jessdion), Joel Barnes (GitHub: [ GitHub ID: jjbarnes21]), Mian Hamid (GitHub: [Mian's GitHub ID]), Zeek Moore (GitHub: nlmoore-crypto)
 
 ---
 
