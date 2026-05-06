@@ -34,7 +34,43 @@ Our approach builds on these contributions while departing from them in three im
 
 #### Data
 
-[Mian — write this section. Cover the following: the DOHMH NYC Restaurant Inspection Results dataset from NYC Open Data, approximately 300,000 records across 27 columns updated daily. Describe the key fields: CAMIS, DBA, borough, ZIP code, lat/long, cuisine type, inspection date, violation codes, critical flags, scores, and grades. Discuss how we filtered to 2022–2025 inspection years. Include the class imbalance: roughly 3.5 non-inspection records for every inspection record. Include 2–3 visualizations from notebook 02 such as the inspection distribution over time and the borough breakdown. Note that Census ACS 5-year estimates were incorporated for socioeconomic features at the borough level.]
+Dataset Overview
+
+The primary dataset used in this project is the DOHMH NYC Restaurant Inspection Results dataset, sourced from NYC Open Data. The dataset is updated daily and at the time of use contained approximately 300,000 records across 27 columns, covering every formal inspection conducted by the New York City Department of Health and Mental Hygiene across all five boroughs. Each row represents a single inspection event, meaning that one restaurant may appear multiple times across the dataset corresponding to its full inspection history.
+
+Key fields used in this project include: CAMIS (a unique restaurant identifier assigned by DOHMH), DBA (the restaurant's operating name), borough, ZIP code, latitude and longitude coordinates, cuisine description, inspection date, violation codes, critical flag (indicating whether a violation was cited as critical or not critical), inspection score, and grade. Inspection scores are computed by summing the point values of all violations cited during a visit, with higher scores indicating worse performance. Grades of A, B, and C are assigned based on score thresholds and represent the public-facing outcome of an inspection cycle.
+
+Temporal Filtering
+
+The dataset spans inspections from the early 2000s through the present, but training on the full historical range introduced significant noise. COVID-19 substantially disrupted both restaurant operations and DOHMH enforcement activity beginning in 2020, resulting in inspection gaps, temporary closures, and irregular scoring patterns that do not reflect steady-state behavior. To focus on post-pandemic operational patterns and avoid this structural break in the data, we filtered to inspection records dated between January 2022 and December 2025. This window captures the return to normal enforcement cadence while providing sufficient volume for modeling. The filtered dataset retained approximately 200,000 records across the five boroughs.
+
+Class Imbalance
+
+A key characteristic of the filtered dataset is a substantial class imbalance in the target variable. When the binary target — whether a restaurant receives an inspection within the next 90 days — is computed, non-inspection records outnumber inspection records at a ratio of approximately 3.5 to 1. This reflects the natural distribution of inspection activity: most restaurants in any given 90-day window are not inspected, particularly lower-risk establishments that have demonstrated consistent compliance. This imbalance was a central design consideration in model selection and is discussed further in the Methods section.
+
+Exploratory Data Analysis
+
+Initial EDA conducted in notebook 02 revealed several patterns that informed both feature engineering and modeling decisions.
+
+Inspection volume over time showed clear periodicity, with higher inspection activity in summer months consistent with known patterns in food safety enforcement — warmer temperatures and higher dining traffic correlate with elevated risk and increased inspector deployment. A notable dip in inspection counts is visible in the 2020 to 2021 period, validating the decision to exclude pre-2022 records from modeling.
+
+The borough-level breakdown of inspection counts showed Manhattan and Brooklyn accounting for the largest share of inspections by volume, reflecting their higher restaurant density. However, when normalized by restaurant count, inspection rates across boroughs are more comparable, suggesting that raw inspection volume differences are largely a function of establishment density rather than differential enforcement intensity. This distinction was relevant to the equity considerations raised in the Discussion section.
+
+Violation score distributions showed a right skew, with the majority of inspections resulting in scores below 28 (the threshold for an A grade) and a smaller but meaningful tail of high-score inspections indicating serious compliance failures. The distribution of critical violation flags showed that approximately 40 percent of inspection records included at least one critical violation, making this a substantive signal for the model.
+
+Supplemental Data: Census ACS Estimates
+
+To capture neighborhood-level socioeconomic context, U.S. Census American Community Survey (ACS) 5-year estimates were incorporated as supplemental features. Borough-level variables derived from this source include median household income, population density, and poverty rate. These features were merged onto the inspection-level dataset using borough as the join key. While borough-level aggregation is coarser than tract or block-level data, it allowed the model to distinguish broad socioeconomic gradients across the city without introducing the data sparsity that would result from a finer geographic join. The limitations of this aggregation choice are discussed further below.
+
+Limitations
+
+Several limitations affect the scope and generalizability of the results presented in this project, and should be considered by any practitioner looking to extend or deploy this work.
+
+The most immediate limitation is class imbalance. Despite applying class weights inversely proportional to class frequency in the balanced logistic regression, the 3.5-to-1 ratio of non-inspection to inspection records means the model operates in a structurally difficult classification environment. The balanced weights improve recall substantially, but the resulting precision of 0.44 means that roughly half of the restaurants the model flags as high-priority will not actually be inspected within the 90-day window. For an inspector workforce with limited time, a high false positive rate carries real operational cost, and further work on threshold tuning or alternative resampling strategies such as SMOTE would be needed before deployment.
+
+A second limitation concerns the never-inspected restaurant blind spot. The model is trained on inspection records, which means it has no direct signal for restaurants that have never appeared in the DOHMH dataset. These establishments may represent some of the highest-risk targets precisely because they have evaded regulatory attention. The union training strategy adopted in this project, which added zeroed-out feature rows for restaurants appearing in the test set but absent from training, partially addresses this by ensuring the model encounters every establishment during training. However, a zeroed feature vector is a weak proxy for genuine risk assessment. Surfacing truly invisible restaurants would require additional data sources such as business license records or 311 complaint filings, which are outside the scope of this project.
+
+A third limitation involves two proxy features that introduce structural uncertainty. The time-since-open feature assumes that each restaurant opened five years before its first recorded inspection, since actual open dates are not available in the DOHMH dataset. This assumption is applied uniformly across all establishments regardless of their actual age, which introduces noise for both newer and older restaurants. Additionally, following discovery during final model evaluation, inspection year was found to carry a coefficient of 6.70 in the balanced logistic regression, substantially larger than any other feature. This indicates the model was partially learning a time trend in inspection activity rather than generalizing stable restaurant-level risk signals. Inspection year was subsequently removed from the feature set and the model was retrained, but this episode illustrates the importance of careful feature auditing before any deployment context. Finally, the 15 percent data loss from records with ungeocodable or zero-valued coordinates, addressed through borough-median imputation, means that a meaningful share of the training data carries imputed rather than observed geographic features, which may dampen the model's geographic precision.
 
 #### Methods
 
